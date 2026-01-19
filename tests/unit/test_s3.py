@@ -308,9 +308,7 @@ class TestS3ClientList:
         """list_files entfernt Tenant-Prefix aus Keys."""
         with mock_aws():
             s3 = boto3.client("s3", region_name="eu-central-1")
-            s3.put_object(
-                Bucket="test-bucket", Key="tnt-123/file.txt", Body=b"Content"
-            )
+            s3.put_object(Bucket="test-bucket", Key="tnt-123/file.txt", Body=b"Content")
 
             client = S3Client("test-bucket", region="eu-central-1")
             files = client.list_files("tnt-123")

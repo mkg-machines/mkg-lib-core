@@ -128,7 +128,9 @@ class TestBaseHandler:
 
     def test_handle_successful_request_v1(self, handler, api_gateway_v1_event, mocker):
         """Erfolgreicher Request mit API Gateway v1."""
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(api_gateway_v1_event, None)
 
         assert response["statusCode"] == 200
@@ -137,14 +139,18 @@ class TestBaseHandler:
 
     def test_handle_successful_request_v2(self, handler, api_gateway_v2_event, mocker):
         """Erfolgreicher Request mit API Gateway v2."""
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(api_gateway_v2_event, None)
 
         assert response["statusCode"] == 200
 
     def test_handle_direct_context(self, handler, direct_context_event, mocker):
         """Handler mit direktem Context für interne Aufrufe."""
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(direct_context_event, None)
 
         assert response["statusCode"] == 200
@@ -166,7 +172,9 @@ class TestBaseHandler:
     def test_handle_app_error(self, api_gateway_v1_event, mocker):
         """AppError wird korrekt behandelt."""
         handler = ConcreteHandler(raise_error=NotFoundError("User", entity_id="123"))
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(api_gateway_v1_event, None)
 
         assert response["statusCode"] == 404
@@ -177,7 +185,9 @@ class TestBaseHandler:
         """ValidationError wird korrekt behandelt."""
         error = ValidationError("Invalid email", field="email")
         handler = ConcreteHandler(raise_error=error)
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(api_gateway_v1_event, None)
 
         assert response["statusCode"] == 400
@@ -187,7 +197,9 @@ class TestBaseHandler:
     def test_handle_unexpected_error(self, api_gateway_v1_event, mocker):
         """Unerwartete Fehler werden abgefangen und geben 500 zurück."""
         handler = ConcreteHandler(raise_error=RuntimeError("Unexpected"))
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         response = handler.handle(api_gateway_v1_event, None)
 
         assert response["statusCode"] == 500
@@ -197,7 +209,9 @@ class TestBaseHandler:
 
     def test_tenant_context_property(self, handler, api_gateway_v1_event, mocker):
         """tenant_context Property gibt korrekten Context zurück."""
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
 
         class ContextCheckHandler(BaseHandler):
             def process(self, event, context):
@@ -222,7 +236,9 @@ class TestBaseHandler:
                 assert self.tenant_id == "tnt-123"
                 return {"ok": True}
 
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         handler = TenantIdCheckHandler()
         handler.handle(api_gateway_v1_event, None)
 
@@ -234,7 +250,9 @@ class TestBaseHandler:
                 assert self.user_id == "usr-456"
                 return {"ok": True}
 
-        mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
+        mocker.patch.dict(
+            os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"}
+        )
         handler = UserIdCheckHandler()
         handler.handle(api_gateway_v1_event, None)
 

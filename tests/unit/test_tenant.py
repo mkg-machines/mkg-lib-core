@@ -195,6 +195,7 @@ class TestExtractTenantFromJwt:
 
         assert ctx.tenant_id == "tnt-123"
 
+
 class TestTenantContextThreadLocal:
     """Tests für Thread-lokalen TenantContext."""
 
