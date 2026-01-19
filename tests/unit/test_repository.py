@@ -1,13 +1,12 @@
 """Tests für BaseRepository."""
 
-from datetime import UTC, datetime
 from typing import Any
 
 import pytest
 from pydantic import BaseModel
 
 from mkg_core.base.repository import BaseRepository
-from mkg_core.utils.pagination import PaginatedResult, PaginationRequest, PaginationResponse
+from mkg_core.utils.pagination import PaginatedResult, PaginationResponse
 
 
 class SampleEntity(BaseModel):
@@ -269,8 +268,18 @@ class TestBaseRepositoryList:
         """list() gibt PaginatedResult zurück."""
         repo.client.query.return_value = PaginatedResult(
             items=[
-                {"id": "ent-1", "tenant_id": "tnt-123", "name": "Entity 1", "is_active": True},
-                {"id": "ent-2", "tenant_id": "tnt-123", "name": "Entity 2", "is_active": True},
+                {
+                    "id": "ent-1",
+                    "tenant_id": "tnt-123",
+                    "name": "Entity 1",
+                    "is_active": True,
+                },
+                {
+                    "id": "ent-2",
+                    "tenant_id": "tnt-123",
+                    "name": "Entity 2",
+                    "is_active": True,
+                },
             ],
             pagination=PaginationResponse(cursor=None, has_more=False),
         )
@@ -284,7 +293,12 @@ class TestBaseRepositoryList:
         """list() konvertiert Items zu Entities."""
         repo.client.query.return_value = PaginatedResult(
             items=[
-                {"id": "ent-1", "tenant_id": "tnt-123", "name": "Entity 1", "is_active": True},
+                {
+                    "id": "ent-1",
+                    "tenant_id": "tnt-123",
+                    "name": "Entity 1",
+                    "is_active": True,
+                },
             ],
             pagination=PaginationResponse(cursor=None, has_more=False),
         )

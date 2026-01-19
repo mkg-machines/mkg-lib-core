@@ -130,7 +130,7 @@ class TestS3ClientUpload:
             client = S3Client("test-bucket", region="eu-central-1")
             content = b'{"key": "value"}'
 
-            uri = client.upload_file(
+            client.upload_file(
                 "tnt-123", "data.json", content, content_type="application/json"
             )
 

@@ -1,12 +1,7 @@
 """Tests für Logging Utilities."""
 
-import json
 import logging
 import os
-from io import StringIO
-
-import pytest
-import structlog
 
 from mkg_core.utils.logging import (
     configure_logging,

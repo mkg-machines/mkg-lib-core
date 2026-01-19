@@ -8,7 +8,6 @@ import pytest
 
 from mkg_core.base.handler import BaseHandler, get_cors_headers
 from mkg_core.exceptions.errors import (
-    AuthenticationError,
     NotFoundError,
     ValidationError,
 )
@@ -176,7 +175,8 @@ class TestBaseHandler:
 
     def test_handle_validation_error(self, api_gateway_v1_event, mocker):
         """ValidationError wird korrekt behandelt."""
-        handler = ConcreteHandler(raise_error=ValidationError("Invalid email", field="email"))
+        error = ValidationError("Invalid email", field="email")
+        handler = ConcreteHandler(raise_error=error)
         mocker.patch.dict(os.environ, {"CORS_ALLOWED_ORIGIN": "https://app.example.com"})
         response = handler.handle(api_gateway_v1_event, None)
 

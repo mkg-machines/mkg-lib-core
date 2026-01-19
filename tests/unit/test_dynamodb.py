@@ -309,7 +309,9 @@ class TestDynamoDBClientQuery:
             client = DynamoDBClient("test-table", region="eu-central-1")
             pagination = PaginationRequest(limit=2)
 
-            result = client.query("tnt-123", "TENANT#tnt-123#ENTITY", pagination=pagination)
+            result = client.query(
+                "tnt-123", "TENANT#tnt-123#ENTITY", pagination=pagination
+            )
 
             assert len(result.items) == 2
 
@@ -372,7 +374,7 @@ class TestDynamoDBClientBatch:
             for i in range(3):
                 dynamodb_table.put_item(
                     Item={
-                        "PK": f"TENANT#tnt-123#ENTITY",
+                        "PK": "TENANT#tnt-123#ENTITY",
                         "SK": f"ENTITY#{i}",
                         "name": f"Entity {i}",
                         "tenant_id": "tnt-123",

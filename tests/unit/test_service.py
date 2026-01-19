@@ -7,7 +7,11 @@ from pydantic import BaseModel
 
 from mkg_core.base.service import BaseService
 from mkg_core.exceptions.errors import NotFoundError
-from mkg_core.utils.pagination import PaginatedResult, PaginationRequest, PaginationResponse
+from mkg_core.utils.pagination import (
+    PaginatedResult,
+    PaginationRequest,
+    PaginationResponse,
+)
 
 
 class SampleEntity(BaseModel):
@@ -431,7 +435,8 @@ class TestBaseServiceHooks:
         # Diese sollten keine Fehler werfen
         service._before_create("tnt", CreateDTO(name=""))
         service._after_create("tnt", SampleEntity(id="1", tenant_id="t", name=""))
-        service._before_update("tnt", SampleEntity(id="1", tenant_id="t", name=""), UpdateDTO())
+        entity = SampleEntity(id="1", tenant_id="t", name="")
+        service._before_update("tnt", entity, UpdateDTO())
         service._after_update("tnt", SampleEntity(id="1", tenant_id="t", name=""))
         service._before_delete("tnt", SampleEntity(id="1", tenant_id="t", name=""))
         service._after_delete("tnt", SampleEntity(id="1", tenant_id="t", name=""))
