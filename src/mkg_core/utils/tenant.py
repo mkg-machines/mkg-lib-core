@@ -299,19 +299,15 @@ def extract_tenant_from_jwt(claims: dict[str, Any]) -> TenantContext:
         >>> ctx.tenant_id
         'tnt-456'
     """
-    # Tenant-ID aus verschiedenen möglichen Claim-Namen
-    tenant_id = (
-        claims.get("custom:tenant_id")
-        or claims.get("tenant_id")
-        or claims.get("tenantId")
-    )
+    # Tenant-ID aus verschiedenen möglichen Claim-Namen (nur snake_case)
+    tenant_id = claims.get("custom:tenant_id") or claims.get("tenant_id")
 
     if not tenant_id:
         msg = "tenant_id not found in JWT claims"
         raise TenantContextError(msg)
 
-    # User-ID
-    user_id = claims.get("sub") or claims.get("user_id") or claims.get("userId")
+    # User-ID (nur snake_case, sub ist Standard-Claim)
+    user_id = claims.get("sub") or claims.get("user_id")
 
     # Rollen aus Cognito Groups
     roles = claims.get("cognito:groups") or claims.get("groups") or []
