@@ -7,7 +7,7 @@ Example:
     >>> from mkg_core.base import BaseHandler
     >>> class GetUserHandler(BaseHandler):
     ...     def process(self, event: dict, context: Any) -> dict:
-    ...         user_id = event["pathParameters"]["userId"]
+    ...         user_id = event["pathParameters"]["user_id"]
     ...         return {"user": {"id": user_id}}
 """
 
